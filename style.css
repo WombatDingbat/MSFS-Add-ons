@@ -384,7 +384,7 @@ ul {
   position: relative;
   width: 300px;
   height: 200px;
-  transition: 1s;
+  animation: none;
 }
 
 
@@ -458,12 +458,38 @@ ul {
 }
 
 .thumbnail {
-  width: 300px;
+  max-width: 300px;
+  max-height: 200px;
 }
 
 /*hover*/
 .aircraft-tile :hover {
   cursor: pointer;
-  box-shadow: 0px 5px 60px  rgba(0, 0, 0, 0.6);
-  transition: 1s;
+  animation: pulse 1.5s infinite;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(68,214,44, 0.4);
+  }
+  70% {
+      -webkit-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(68,214,44), 0.4;
+    box-shadow: 0 0 0 0 rgba(68,214,44, 0.4);
+  }
+  70% {
+      -moz-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+      box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+      box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
 }
