@@ -366,6 +366,7 @@ ul {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
+  padding: 10px;
 }
 
 .aircraft-list::-webkit-scrollbar {
@@ -383,7 +384,9 @@ ul {
   position: relative;
   width: 300px;
   height: 200px;
+  transition: 1s;
 }
+
 
 .aircraft-tile-caption {
   position: absolute;
@@ -452,4 +455,15 @@ ul {
   border-radius: 5px;
   padding: 10px;
   font-size: 20;
+}
+
+.thumbnail {
+  width: 300px;
+}
+
+/*hover*/
+.aircraft-tile :hover {
+  cursor: pointer;
+  box-shadow: 0px 5px 60px  rgba(0, 0, 0, 0.6);
+  transition: 1s;
 }
