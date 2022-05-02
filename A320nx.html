@@ -27,7 +27,34 @@
                 <div class="aircraft-info">
                   <img class="thumbnail2" src="/thumbnails/FlybywireA32NX.jpg">
                   <p class="info1">The A320nx from Fly By Wire Simulations offers a more in depth/relistic version of the default A320Neo in MSFS2020</p>
-                  <p class="info2">Range: 3,750NMI <br> Cruising Speed: 447KN <br>Maximum Operating Speed: 470KN <br>Maximum Altitude: 41,000Ft <br>MTOW: 158,000</p>
+                  <p class="info2">Range: 3,750NMI <br> Cruising Speed: 447KN <br>Maximum Operating Speed: 470KN <br>Maximum Altitude: 41,000Ft <br>MTOW: 158,000 Pounds<br>MLW: 134,800 Pounds <br>Pax Max seating: 194</p>
+                </div>
+                <div class="aircraft-download">
+                  <h1 class="download-header">Download links</h1>
+                  <div class="installers">
+                    <h1 class="installer-header">Installer .exe download</h1> 
+                    <a href="#" class="download">
+                      <svg height="700px" width="700px" viewBox="0 0 512 499.81" version="1.1" id="windows">
+                        <path d="M0,67.048l207.238-27.137v197.803H0V67.048z M207.238,459.904L0,432.762V262.096h207.238V459.904z M512,0v237.714H231.619  v-201L512,0z M512,499.81l-280.381-36.714v-201H512V499.81z"></path>
+                      </svg>
+                      <span>Windows</span>
+                    </a>
+                    <h1 class="installer-header">.Zip download</h1>
+                    <a href="" class="button">
+                      <ul>
+                          <li>&#68;ownload</li>
+                          <li>&#68;ownloading</li>
+                          <li>Almost done</li>
+                      </ul>
+                      <div>
+                          <svg viewBox="0 0 24 24"></svg>
+                      </div>
+                    </a>
+                  </div>
+                  <a class="dribbble" href="https://dribbble.com/shots/7299868-Download-Buttons" target="_blank"><img src="https://cdn.dribbble.com/assets/dribbble-ball-mark-2bd45f09c2fb58dbbfb44766d5d1d07c5a12972d602ef8b32204d28fa3dda554.svg" alt=""></a>
+                </div>
+                <div class="help">
+                  <a href="#" class="help-header">Need help installing?</a>
                 </div>
               </div>
             </div>
@@ -44,7 +71,7 @@
             <a href="index.html" style="--i: 0.05s">Home</a>
           </li>
           <li>
-            <a href="#" style="--i: 0.1s">Aircraft</a>
+            <a href="aircraft.html" style="--i: 0.1s">Aircraft</a>
           </li>
           <li>
             <a href="#" style="--i: 0.15s">Airports</a>
@@ -69,5 +96,93 @@
     </div>
 
     <script src="app.js"></script>
+    <script>
+      document.querySelectorAll('.button').forEach(button => {
+
+let duration = 3000,
+    svg = button.querySelector('svg'),
+    svgPath = new Proxy({
+        y: null,
+        smoothing: null
+    }, {
+        set(target, key, value) {
+            target[key] = value;
+            if(target.y !== null && target.smoothing !== null) {
+                svg.innerHTML = getPath(target.y, target.smoothing, null);
+            }
+            return true;
+        },
+        get(target, key) {
+            return target[key];
+        }
+    });
+
+button.style.setProperty('--duration', duration);
+
+svgPath.y = 20;
+svgPath.smoothing = 0;
+
+button.addEventListener('click', e => {
+    
+    e.preventDefault();
+
+    if(!button.classList.contains('loading')) {
+
+        button.classList.add('loading');
+
+        gsap.to(svgPath, {
+            smoothing: .3,
+            duration: duration * .065 / 1000
+        });
+
+        gsap.to(svgPath, {
+            y: 12,
+            duration: duration * .265 / 1000,
+            delay: duration * .065 / 1000,
+            ease: Elastic.easeOut.config(1.12, .4)
+        });
+
+        setTimeout(() => {
+            svg.innerHTML = getPath(0, 0, [
+                [3, 14],
+                [8, 19],
+                [21, 6]
+            ]);
+        }, duration / 2);
+
+    }
+
+});
+
+});
+
+function getPoint(point, i, a, smoothing) {
+let cp = (current, previous, next, reverse) => {
+        let p = previous || current,
+            n = next || current,
+            o = {
+                length: Math.sqrt(Math.pow(n[0] - p[0], 2) + Math.pow(n[1] - p[1], 2)),
+                angle: Math.atan2(n[1] - p[1], n[0] - p[0])
+            },
+            angle = o.angle + (reverse ? Math.PI : 0),
+            length = o.length * smoothing;
+        return [current[0] + Math.cos(angle) * length, current[1] + Math.sin(angle) * length];
+    },
+    cps = cp(a[i - 1], a[i - 2], point, false),
+    cpe = cp(point, a[i - 1], a[i + 1], true);
+return `C ${cps[0]},${cps[1]} ${cpe[0]},${cpe[1]} ${point[0]},${point[1]}`;
+}
+
+function getPath(update, smoothing, pointsNew) {
+let points = pointsNew ? pointsNew : [
+        [4, 12],
+        [12, update],
+        [20, 12]
+    ],
+    d = points.reduce((acc, point, i, a) => i === 0 ? `M ${point[0]},${point[1]}` : `${acc} ${getPoint(point, i, a, smoothing)}`, '');
+return `<path d="${d}" />`;
+}
+
+    </script>
   </body>
 </html>
